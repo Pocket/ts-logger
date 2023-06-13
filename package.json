@@ -1,6 +1,6 @@
 {
-  "name": "ts-logger",
-  "version": "1.0.0",
+  "name": "@pocket-tools/ts-logger",
+  "version": "0.0.0-development",
   "description": "Basic Typescript Logger",
   "author": "",
   "main": "dist/index.js",
