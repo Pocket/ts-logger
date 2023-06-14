@@ -18,7 +18,7 @@ morgan.token('req-userid', function (req, _res) {
 // if graph requestId header used, inject it into HTTP request logs
 morgan.token('req-requestId', function (req, _res) {
   const requestId: string | string[] =
-    req.headers.get('x-graph-request-id') || null;
+    req.headers['x-graph-request-id'] || null;
   if (requestId === null) {
     return null;
   }
@@ -27,7 +27,7 @@ morgan.token('req-requestId', function (req, _res) {
 
 // if traceId header used, inject it into HTTP request logs
 morgan.token('req-traceId', function (req, _res) {
-  const traceId: string | string[] = req.headers.get('x-amzn-trace') || null;
+  const traceId: string | string[] = req.headers['x-amzn-trace'] || null;
   if (traceId === null) {
     return null;
   }
