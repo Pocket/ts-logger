@@ -33,8 +33,11 @@ const fileLoggingTransports = [
 ];
 
 const transports = [
-  new winston.transports.Console(),
-  ...(isLocal || isTest ? fileLoggingTransports : []),
+  // for local and test envs, log to files
+  // otherwise, log to the console
+  ...(isLocal || isTest
+    ? fileLoggingTransports
+    : [new winston.transports.Console()]),
 ];
 
 export function setLogger(metadata: object = {}): Logger {
