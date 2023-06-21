@@ -25,18 +25,29 @@ describe('setLogger', () => {
     const testLogger = setLogger();
     expect(testLogger.level).toBe('debug');
   });
-  it('Local environment writes to file', async () => {
+  it('Local environment writes to files only', async () => {
     process.env.NODE_ENV = 'local';
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const setLogger = require('./logger').setLogger;
 
     const testLogger = setLogger();
-    expect(testLogger.transports.length).toEqual(3);
-    expect(testLogger.transports[0].name).toBe('console');
+    expect(testLogger.transports.length).toEqual(2);
+    expect(testLogger.transports[0].name).toBe('file');
+    expect(testLogger.transports[0].filename).toBe('error.log');
     expect(testLogger.transports[1].name).toBe('file');
-    expect(testLogger.transports[1].filename).toBe('error.log');
-    expect(testLogger.transports[2].name).toBe('file');
-    expect(testLogger.transports[2].filename).toBe('all.log');
+    expect(testLogger.transports[1].filename).toBe('all.log');
+  });
+  it('Test environment writes to files only', async () => {
+    process.env.NODE_ENV = 'test';
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const setLogger = require('./logger').setLogger;
+
+    const testLogger = setLogger();
+    expect(testLogger.transports.length).toEqual(2);
+    expect(testLogger.transports[0].name).toBe('file');
+    expect(testLogger.transports[0].filename).toBe('error.log');
+    expect(testLogger.transports[1].name).toBe('file');
+    expect(testLogger.transports[1].filename).toBe('all.log');
   });
   it('Dev environment defaults to debug level', async () => {
     process.env.NODE_ENV = 'development';
