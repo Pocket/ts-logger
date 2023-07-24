@@ -14,13 +14,13 @@ const isDevelopment = env === 'development';
 const isLocal = env === 'local';
 const isTest = env === 'test';
 const level = () => {
-  // by default, dev & local envs run at debug, prod runs at http
-  return isDevelopment || isLocal ? 'debug' : 'http';
+  // by default, dev & local envs run at debug, prod runs at info
+  return isDevelopment || isLocal ? 'debug' : 'info';
 };
 
 const format = winston.format.combine(
   winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
-  winston.format.json()
+  winston.format.json(),
 );
 
 // write logs to file, for local development
