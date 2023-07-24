@@ -1,6 +1,6 @@
 {
   "name": "@pocket-tools/ts-logger",
-  "version": "0.0.0-development",
+  "version": "1.2.3",
   "description": "Basic Typescript Logger",
   "author": "",
   "main": "dist/index.js",
@@ -33,7 +33,7 @@
     ]
   },
   "dependencies": {
-    "@pocket-tools/eslint-config": "^2.0.0",
+    "@pocket-tools/eslint-config": "^2.1.7",
     "@pocket-tools/tsconfig": "^2.0.1",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",

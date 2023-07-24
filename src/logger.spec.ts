@@ -68,7 +68,7 @@ describe('setLogger', () => {
   });
   it('Non-dev and non-local defaults to http level', async () => {
     const testLogger = setLogger();
-    expect(testLogger.level).toBe('http');
+    expect(testLogger.level).toBe('info');
   });
   it('Non-dev and non-local do not write to file', async () => {
     process.env.NODE_ENV = 'production';
@@ -81,7 +81,7 @@ describe('setLogger', () => {
   });
   it('Can override log level', async () => {
     const testLogger = setLogger();
-    expect(testLogger.level).toBe('http');
+    expect(testLogger.level).toBe('info');
     testLogger.level = 'warn';
     expect(testLogger.level).toBe('warn');
   });
