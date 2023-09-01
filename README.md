@@ -4,9 +4,9 @@ This repository contains a simple, baseline logger setup for use in various Type
 
 ## Default Behavior
 
-### LOG_LEVEL
+### `LOG_LEVEL``
 
-When environment LOG_LEVEL is set, it will be used as the winston log level.
+When environment `LOG_LEVEL`` is set, it will be used as the winston log level.
 
 Levels:
 

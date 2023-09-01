@@ -17,14 +17,6 @@ describe('createLogger', () => {
     process.env = defaultEnvs;
   });
 
-  it('Local environment defaults to debug level', async () => {
-    process.env.NODE_ENV = 'local';
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const createLogger = require('./logger').createLogger;
-
-    const testLogger = createLogger();
-    expect(testLogger.level).toBe('debug');
-  });
   it('Local environment writes to files only', async () => {
     process.env.NODE_ENV = 'local';
     // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -60,31 +52,42 @@ describe('createLogger', () => {
     expect(testLogger.transports[0].name).toBe('console');
   });
 
-  describe('env LOG_LEVEL is undefined', () => {
-    beforeEach(() => () => {
-      delete process.env.LOG_LEVEL;
-    });
-
-    it('Dev environment defaults to debug level', async () => {
-      process.env.NODE_ENV = 'development';
+  describe('level', () => {
+    it('level is LOG_LEVEL when LOG_LEVEL is defined', () => {
+      process.env.LOG_LEVEL = 'debug';
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const createLogger = require('./logger').createLogger;
-
-      const testLogger = createLogger();
-      expect(testLogger.level).toBe('debug');
+      const logger = require('./logger').createLogger();
+      expect(logger.level).toEqual('debug');
     });
 
-    it('Non-dev and non-local defaults to http level', async () => {
-      const testLogger = createLogger();
-      expect(testLogger.level).toBe('info');
-    });
-  });
+    describe('when env LOG_LEVEL is undefined', () => {
+      beforeEach(() => () => {
+        delete process.env.LOG_LEVEL;
+      });
 
-  it('sets log level from env LOG_LEVEL', () => {
-    process.env.LOG_LEVEL = 'debug';
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const logger = require('./logger').createLogger();
-    expect(logger.level).toEqual('debug');
+      it('level is debug when NODE_ENV is development', async () => {
+        process.env.NODE_ENV = 'development';
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const createLogger = require('./logger').createLogger;
+
+        const testLogger = createLogger();
+        expect(testLogger.level).toBe('debug');
+      });
+
+      it('level is info when NODE_ENV is not in (local, development)', async () => {
+        const testLogger = createLogger();
+        expect(testLogger.level).toBe('info');
+      });
+
+      it('level is debug when NODE_ENV is local ', async () => {
+        process.env.NODE_ENV = 'local';
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const createLogger = require('./logger').createLogger;
+
+        const testLogger = createLogger();
+        expect(testLogger.level).toBe('debug');
+      });
+    });
   });
 
   it('Non-dev and non-local do not write to file', async () => {
