@@ -1,4 +1,4 @@
-import winston, { Logger } from 'winston';
+import winston, { Logger, LoggerOptions } from 'winston';
 
 const levels = {
   error: 0,
@@ -13,7 +13,7 @@ const env = process.env.NODE_ENV || 'development';
 const isDevelopment = env === 'development';
 const isLocal = env === 'local';
 const isTest = env === 'test';
-const level = () => {
+const envDefaultLogLevel = () => {
   // by default, dev & local envs run at debug, prod runs at info
   return isDevelopment || isLocal ? 'debug' : 'info';
 };
@@ -40,19 +40,38 @@ const transports = [
     : [new winston.transports.Console()]),
 ];
 
+/**
+ * Create a winston.Logger intance with environment defaults.
+ * @deprecated use createLogger instead.
+ * @param metadata default meta data to be added to all logging messages.
+ * @returns winston.Logger
+ */
 export function setLogger(metadata: object = {}): Logger {
-  const releaseSha: string = process.env.RELEASE_SHA || null;
-  const allMetadata: object = {
-    ...metadata,
-    releaseSha,
+  return createLogger({ defaultMeta: metadata });
+}
+
+/**
+ * Create a winston.Logger intance with environment defaults.
+ * @param options winston.LoggerOptions
+ * @returns winston.Logger
+ */
+export function createLogger(options: LoggerOptions | undefined = {}): Logger {
+  const defaults = {
+    level: process.env['LOG_LEVEL'] || envDefaultLogLevel(),
+    levels,
+    format,
+    transports,
+  };
+
+  const enchancedDefaultMeta = {
+    releaseSha: process.env.RELEASE_SHA || null,
+    ...options.defaultMeta,
   };
 
   const baseLogger = winston.createLogger({
-    level: level(),
-    levels,
-    format,
-    defaultMeta: allMetadata,
-    transports,
+    ...defaults,
+    ...options,
+    defaultMeta: enchancedDefaultMeta,
   });
 
   return baseLogger;

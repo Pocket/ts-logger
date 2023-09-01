@@ -2,6 +2,25 @@
 
 This repository contains a simple, baseline logger setup for use in various Typescript apps. It is meant to be extensible. It comes with an optional morgan middleware setup function as well, for logging HTTP requests and responses.
 
+## Default Behavior
+
+### LOG_LEVEL
+
+When environment LOG_LEVEL is set, it will be used as the winston log level.
+
+Levels:
+
+```typescript
+const levels = {
+  error: 0,
+  warn: 1,
+  info: 2,
+  http: 3, // optional level for http req & resp logging
+  graphql: 4, // optional level for graphql req & resp logging
+  debug: 5,
+};
+```
+
 ## Example Usage
 
 ### Generic Setup
