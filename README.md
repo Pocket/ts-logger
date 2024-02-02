@@ -1,5 +1,8 @@
 # Typescript Logger
 
+> [!IMPORTANT]  
+> This repo has been moved to [Pocket's Monorepo](https://github.com/Pocket/pocket-monorepo/tree/main/packages/ts-logger)
+
 This repository contains a simple, baseline logger setup for use in various Typescript apps. It is meant to be extensible. It comes with an optional morgan middleware setup function as well, for logging HTTP requests and responses.
 
 ## Default Behavior
